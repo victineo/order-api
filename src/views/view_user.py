@@ -48,3 +48,6 @@ class UserView(UserViewInterface):
                 not body.get("username")
                 or not isinstance(body.get("username"), str)
             ): raise Exception("Invalid input")
+
+        else:
+            raise Exception("Invalid input")
