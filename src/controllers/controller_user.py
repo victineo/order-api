@@ -15,7 +15,7 @@ class UserController:
         hashed_password = self.__create_hash_password(password)
         self.__register_new_user(username, hashed_password)
 
-    def get_user(self, username: str) -> dict:
+    def get_user(self, username: str) -> tuple[int, str, str]:
         return self.__find_user(username)
 
     def create_login(self, username: str, password: str) -> str:
@@ -33,7 +33,7 @@ class UserController:
     def __register_new_user(self, username: str, password: str) -> None:
         return self.__repository.create_user(username, password)
 
-    def __find_user(self, username: str) -> dict:
+    def __find_user(self, username: str) -> tuple[int, str, str]:
         user = self.__repository.get_user_by_username(username)
         if not user:
             raise Exception("User not found")
