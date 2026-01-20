@@ -17,12 +17,35 @@ class OrderRepository(OrderRepositoryInterface):
         )
         self.__connection.commit()
 
-    def get_orders_by_user_id(self, user_id: int) -> list:
+    def get_orders_by_user_id(self, user_id: int) -> list[tuple[int, int, str, str]]:
         cursor = self.__connection.cursor()
         cursor.execute(
             '''
-            SELECT * FROM orders
+            SELECT *
+            FROM orders
             WHERE user_id = ?
             ''', (user_id,)
         )
         return cursor.fetchall()
+
+    def get_order_by_id(self, order_id: int) -> tuple[int, int, str, str]:
+        cursor = self.__connection.cursor()
+        cursor.execute(
+            '''
+            SELECT *
+            FROM orders
+            WHERE id = ?
+            ''', (order_id,)
+        )
+        return cursor.fetchone()
+
+    def update_order(self, user_id: int, order_id: int, new_description: str) -> None:
+        cursor = self.__connection.cursor()
+        cursor.execute(
+            '''
+            UPDATE orders
+            SET description = ?
+            WHERE id = ? AND user_id = ?
+            ''', (new_description, order_id, user_id)
+        )
+        self.__connection.commit()
