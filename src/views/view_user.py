@@ -1,6 +1,7 @@
 from src.controllers.interfaces.controller_user_interface import UserControllerInterface
 from .http_types.http_request import HttpRequest
 from .http_types.http_response import HttpResponse
+from src.errors.types.http_bad_request import HttpBadRequestError
 from .interfaces.view_user_interface import UserViewInterface
 
 class UserView(UserViewInterface):
@@ -14,13 +15,13 @@ class UserView(UserViewInterface):
 
         self.__controller.create_user(username, password)
         return HttpResponse({"message": "User created"}, 201)
-    
+
     def handle_get_user(self, http_request: HttpRequest) -> HttpResponse:
         self.__validate_inputs("get_user", http_request.params)
         username = http_request.params.get("username")
         user = self.__controller.get_user(username)
         return HttpResponse({"user": user}, 200)
-    
+
     def handle_create_login(self, http_request: HttpRequest) -> HttpResponse:
         self.__validate_inputs("create_login", http_request.body)
         username = http_request.body.get("username")
@@ -33,7 +34,7 @@ class UserView(UserViewInterface):
         if (
             not body
             or not isinstance(body, dict)
-        ): raise Exception("Invalid input")
+        ): raise HttpBadRequestError("Invalid input")
 
         if body_type == "create_user" or body_type == "create_login":
             if (
@@ -41,13 +42,13 @@ class UserView(UserViewInterface):
                 or not body.get("password")
                 or not isinstance(body.get("username"), str)
                 or not isinstance(body.get("password"), str)
-            ): raise Exception("Invalid input")
+            ): raise HttpBadRequestError("Invalid input")
 
         elif body_type == "get_user":
             if (
                 not body.get("username")
                 or not isinstance(body.get("username"), str)
-            ): raise Exception("Invalid input")
+            ): raise HttpBadRequestError("Invalid input")
 
         else:
-            raise Exception("Invalid input")
+            raise HttpBadRequestError("Invalid input")

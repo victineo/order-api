@@ -1,6 +1,7 @@
 from src.controllers.interfaces.controller_order_interface import OrderControllerInterface
 from .http_types.http_request import HttpRequest
 from .http_types.http_response import HttpResponse
+from src.errors.types.http_bad_request import HttpBadRequestError
 from .interfaces.view_order_interface import OrderViewInterface
 
 class OrderView(OrderViewInterface):
@@ -67,7 +68,7 @@ class OrderView(OrderViewInterface):
         if (
             not body
             or not isinstance(body, dict)
-        ): raise Exception("Invalid input")
+        ): raise HttpBadRequestError("Invalid input")
 
         if body_type == "create_order":
             if (
@@ -76,14 +77,14 @@ class OrderView(OrderViewInterface):
                 or not body.get("description")
                 or not isinstance(body.get("description"), str)
                 or int(body.get("header_user_id")) != int(body.get("user_id"))
-            ): raise Exception("Invalid input")
+            ): raise HttpBadRequestError("Invalid input")
 
         elif body_type == "get_orders":
             if (
                 not body.get("user_id")
                 or not body.get("header_user_id")
                 or int(body.get("header_user_id")) != int(body.get("user_id"))
-            ): raise Exception("Invalid input")
+            ): raise HttpBadRequestError("Invalid input")
 
         elif body_type == "get_order":
             if (
@@ -91,7 +92,7 @@ class OrderView(OrderViewInterface):
                 or not body.get("header_user_id")
                 or not body.get("order_id")
                 or int(body.get("header_user_id")) != int(body.get("user_id"))
-            ): raise Exception("Invalid input")
+            ): raise HttpBadRequestError("Invalid input")
 
         elif body_type == "update_order":
             if (
@@ -101,7 +102,7 @@ class OrderView(OrderViewInterface):
                 or not body.get("new_description")
                 or not isinstance(body.get("new_description"), str)
                 or int(body.get("header_user_id")) != int(body.get("user_id"))
-            ): raise Exception("Invalid input")
+            ): raise HttpBadRequestError("Invalid input")
 
         else:
-            raise Exception("Invalid input")
+            raise HttpBadRequestError("Invalid input")
