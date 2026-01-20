@@ -1,8 +1,9 @@
 from src.models.repositories.interfaces.repository_user_interface import UserRepositoryInterface
 from src.drivers.password_handler import PasswordHandler
 from src.drivers.jwt_handler import JWTHandler
+from .interfaces.controller_user_interface import UserControllerInterface
 
-class UserController:
+class UserController(UserControllerInterface):
     def __init__(self, repository: UserRepositoryInterface) -> None:
         self.__repository = repository
         self.__password_handler = PasswordHandler()
