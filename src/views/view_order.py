@@ -9,7 +9,7 @@ class OrderView(OrderViewInterface):
         self.__controller = controller
 
     def handle_create_order(self, http_request: HttpRequest) -> HttpResponse:
-        user_id = http_request.params.get("user_id")
+        user_id = http_request.token_infos.get("user_id")
         header_user_id = http_request.headers.get("uid")
         description = http_request.body.get("description")
 
@@ -49,9 +49,9 @@ class OrderView(OrderViewInterface):
         return HttpResponse({"order": order}, 200)
 
     def handle_update_order(self, http_request: HttpRequest) -> HttpResponse:
-        user_id = http_request.params.get("user_id")
+        user_id = http_request.token_infos.get("user_id")
         header_user_id = http_request.headers.get("uid")
-        order_id = http_request.body.get("order_id")
+        order_id = http_request.params.get("order_id")
         new_description = http_request.body.get("new_description")
 
         self.__validate_inputs("update_order", {
