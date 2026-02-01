@@ -29,7 +29,7 @@ def get_orders(user_id):
         token_information = auth_jwt_verify()
         http_request = HttpRequest(
             body=request.json,
-            params={ "user_id": user_id},
+            params={ "user_id": user_id },
             headers=request.headers,
             token_infos=token_information
         )
