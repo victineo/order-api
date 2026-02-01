@@ -1,5 +1,5 @@
 # Order API
-This project is a REST API developed in Python with Flask, following Clean Architecture principles. The system manages users and orders, including authentication via JWT.
+This project is a **JWT Authentication and Security case study** applied to a REST API developed in Python with Flask. It follows **Clean Architecture** principles to manage users and orders, demonstrating robust security practices.
 
 ## 🚀 Technologies Used
 - **Python 3**
